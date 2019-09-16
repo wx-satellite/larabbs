@@ -1,2 +1,7 @@
 <?php
 
+if(!function_exists("route_class")) {
+    function route_class() {
+        return str_replace(".",'-', \Illuminate\Support\Facades\Route::currentRouteName());
+    }
+}
