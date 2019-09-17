@@ -21,6 +21,11 @@ class RegisterController extends Controller
     |
     */
 
+
+
+    // 具体的注册逻辑被封装在trait中，进入该RegisterUsers的Trait，查看register方法，有一句代码：
+    // event(new Registered($user = $this->create($request->all())));触发了一个Registered事件，可以在
+    // Providers文件夹的EventServiceProvider文件中查看这个事件的具体监听器。
     use RegistersUsers;
 
     /**

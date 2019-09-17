@@ -38,9 +38,9 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
 // Email 认证相关路由
-Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
-Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('verification.verify');
-Route::get('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
+Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice'); // 验证页面
+Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('verification.verify'); // 验证邮箱，在具体操作在中间件中
+Route::get('email/resend', 'Auth\VerificationController@resend')->name('verification.resend'); // 重发邮件
 
 /*****  Auth::routes()结束    ************************/
 
