@@ -35,7 +35,7 @@ class VerificationController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('signed')->only('verify');
-        $this->middleware('throttle:6,1')->only('verify', 'resend');
+        $this->middleware('signed')->only('verify');  // 路由签名：https://learnku.com/laravel/t/9404/laravel-56-new-function-routing-signature
+        $this->middleware('throttle:6,1')->only('verify', 'resend'); // 频率限制：1分钟最多访问不能超过6次
     }
 }
