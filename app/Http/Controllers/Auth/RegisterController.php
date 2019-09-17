@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -48,10 +48,16 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+
+        // \validator::make()第三个参数是自定义错误提示，注意和$this->validate的区别
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            "captcha" => ["required","captcha"]
+        ],[
+            "captcha.required" => "验证码不正确",
+            "captcha.captcha" => "请输入正确的验证码"
         ]);
     }
 
