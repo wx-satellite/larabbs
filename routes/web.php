@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get("/","PagesController@root")->name("root");
 
 
+Route::resource("users","UsersController",["only"=>["show","update","edit"]]);
 
 
 /******  用户认证脚手架生成的语句是：Auth::routes()，实际等效于下面的路由： *****/
