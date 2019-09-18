@@ -41,7 +41,9 @@ class UsersController extends Controller
         //      $request->avatar
         // 注意表单上传文件时记得加上：enctype="multipart/form-data"
         if($request->avatar) {
-            $res = $handler->save($request->avatar,"avatar", $user->id);
+
+            //  裁剪：https://learnku.com/courses/laravel-intermediate-training/5.8/avatar-croping/4157
+            $res = $handler->save($request->avatar,"avatar", $user->id, 416);
             if($res) {
                 $data["avatar"] = $res["path"];
             }
