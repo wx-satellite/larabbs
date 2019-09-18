@@ -12,6 +12,13 @@ use App\Models\User;
 class UsersController extends Controller
 {
 
+    public function __construct()
+    {
+        // 除了show方法其他都需要登陆才能访问，如果不登陆访问会跳转到登陆页面，具体可以查看auth中间件
+        // except类似黑名单机制
+        $this->middleware("auth",["except"=>["show"]]);
+    }
+
     //当请求 http://larabbs.test/users/1 Laravel 将会自动查找 ID 为 1 的用户并赋值到变量 $user 中，
     //如果数据库中找不到对应的模型实例，会自动生成 HTTP 404 响应，
     public function show(User $user) {
@@ -20,6 +27,8 @@ class UsersController extends Controller
 
 
     public function edit(User $user) {
+        // 授权策略：授权失败时会返回403禁止访问
+        $this->authorize("update", $user);
         return view("users.edit",compact("user"));
     }
 
@@ -32,7 +41,7 @@ class UsersController extends Controller
     // 那么你可以在现有的验证器示例上调用 validate 方法。如果验证失败，用户将会自动重定向。在 AJAX 请求中，则会返回 JSON 格式的响应。
     // 例如：Validator::make($request->all(), ['title' => 'required|unique:posts|max:255'])->validate();
     public function update(User $user, UserRequest $request, ImageUploadHandler $handler) {
-
+        $this->authorize("update",$user);
         $data = $request->all();
 
 
