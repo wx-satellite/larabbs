@@ -48,7 +48,7 @@ class UsersController extends Controller
         }
 
         // 即使这边将请求的所有参数都传递给update，但是update只会更新fillable填充的字段
-        $user->update();
+        $user->update($data);
 
 
 
