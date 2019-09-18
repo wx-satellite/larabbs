@@ -18,6 +18,8 @@ class User extends Authenticatable implements MustVerifyEmailContract
      *
      * @var array
      */
+
+    // $fillable 属性的作用是防止用户随意修改模型数据，只有在此属性里定义的字段，才允许修改，否则更新时会被忽略。
     protected $fillable = [
         'name', 'email', 'password',"introduction","avatar"
     ];
