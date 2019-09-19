@@ -17,6 +17,15 @@ use App\Http\Requests\TopicRequest;
 // php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
 
 
+/*
+ * php artisan migrate:refresh --seed 回滚所有迁移并重新执行migrate，--seed参数表示会同时运行db:seed命令
+ * 注意事项：
+ * 注：开发时尽量不要手动往数据库里写入内容，因为类似于 migrate:refresh 这种操作是很频繁的，
+ * 如果你想要数据库里有一些数据，请使用数据填充功能。这样做除了能被纳入版本控制以外，另一个好处是能让你不需要依赖数据库里的数据，
+ * 这在团队协作中尤其重要，因为队友很多时候不是和你使用同一个数据库。希望同学们尽早养成好习惯。
+ *
+ */
+
 
 class TopicsController extends Controller
 {
