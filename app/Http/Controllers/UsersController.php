@@ -7,6 +7,11 @@ use App\Http\Requests\UserRequest;
 use App\Models\User;
 
 
+// 关于git的命令：
+// git checkout .  撤销所有修改
+// 对于新增的文件如何撤销，可以使用如下命令：
+// git clean -f -d  命令 git clean 作用是清理项目，-f 是强制清理文件的设置，-d 选项命令连文件夹一并清除。
+
 
 // 时间戳created_at和updated_at作为模型属性调用时会自动转成Carbon对象
 class UsersController extends Controller
