@@ -11,6 +11,13 @@ use App\Http\Requests\TopicRequest;
 
 // 代码脚手架包： composer require "summerblue/generator:~1.0" --dev
 // 执行php artisan make:scaffold Projects --schema xxxx
+
+
+// composer require "barryvdh/laravel-debugbar:~3.2" --dev   安装性能分析包（开发者工具类）
+// php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
+
+
+
 class TopicsController extends Controller
 {
     public function __construct()
@@ -19,9 +26,10 @@ class TopicsController extends Controller
     }
 
     //{!! $topics->appends(Request::except('page'))->render() !!}表示：除了page参数以外其他的参数都追加到分页链接中
-	public function index()
+	public function index($pageSize=30)
 	{
-		$topics = Topic::paginate();
+	    // 关联模型预加载：解决了N+1的问题
+		$topics = Topic::query()->with(["user","category"])->paginate($pageSize);
 		return view('topics.index', compact('topics'));
 	}
 
@@ -37,7 +45,7 @@ class TopicsController extends Controller
 
 	public function store(TopicRequest $request)
 	{
-		$topic = Topic::create($request->all());
+		$topic = Topic::query()->create($request->all());
 		return redirect()->route('topics.show', $topic->id)->with('message', 'Created successfully.');
 	}
 
