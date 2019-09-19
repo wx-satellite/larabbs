@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TopicRequest;
 
+
+
+// 代码脚手架包： composer require "summerblue/generator:~1.0" --dev
+// 执行php artisan make:scaffold Projects --schema xxxx
 class TopicsController extends Controller
 {
     public function __construct()
@@ -14,6 +18,7 @@ class TopicsController extends Controller
         $this->middleware('auth', ['except' => ['index', 'show']]);
     }
 
+    //{!! $topics->appends(Request::except('page'))->render() !!}表示：除了page参数以外其他的参数都追加到分页链接中
 	public function index()
 	{
 		$topics = Topic::paginate();
