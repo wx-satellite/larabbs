@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Topic;
 use Illuminate\Http\Request;
 use App\Http\Requests\TopicRequest;
-
+use Illuminate\Support\Facades\Auth;
 
 
 // 代码脚手架包： composer require "summerblue/generator:~1.0" --dev
@@ -50,13 +51,19 @@ class TopicsController extends Controller
 
 	public function create(Topic $topic)
 	{
-		return view('topics.create_and_edit', compact('topic'));
+	    $categories = Category::query()->get();
+		return view('topics.create_and_edit', compact('topic','categories'));
 	}
 
-	public function store(TopicRequest $request)
+
+	// 第二个参数会创建一个空白的Topic对象
+	public function store(TopicRequest $request, Topic $topic)
 	{
-		$topic = Topic::query()->create($request->all());
-		return redirect()->route('topics.show', $topic->id)->with('message', 'Created successfully.');
+	    // 该方法和Topic::query()->create()相似，只会填充fillable属性指定的字段
+		$topic->fill($request->all());
+		$topic->user_id = Auth::id();
+		$topic->save();
+		return redirect()->route('topics.show', $topic->id)->with('success', '帖子创建成功！');
 	}
 
 	public function edit(Topic $topic)

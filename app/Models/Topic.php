@@ -17,7 +17,13 @@ class Topic extends Model
         excerpt	文章摘要，SEO 优化时使用	文本（text）	不需要	nullable()
         slug	SEO 友好的 URI	字符串（String）	不需要
      */
-    protected $fillable = ['title', 'body', 'user_id', 'category_id', 'reply_count', 'view_count', 'last_reply_user_id', 'order', 'excerpt', 'slug'];
+    protected $fillable = [
+        'title',
+        'body',
+        'category_id',
+        'excerpt',
+        'slug'
+    ];
 
     public function user() {
         return $this->belongsTo(User::class,"user_id");

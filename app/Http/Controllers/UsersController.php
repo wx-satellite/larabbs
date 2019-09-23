@@ -13,6 +13,11 @@ use App\Models\User;
 // git clean -f -d  命令 git clean 作用是清理项目，-f 是强制清理文件的设置，-d 选项命令连文件夹一并清除。
 
 
+
+// 关于表单验证：
+// ["name"=>"required|min:2"] 和 ["name"=>["required","min:2"]] 等效
+
+
 // 时间戳created_at和updated_at作为模型属性调用时会自动转成Carbon对象
 class UsersController extends Controller
 {
