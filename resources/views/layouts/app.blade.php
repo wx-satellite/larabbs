@@ -13,6 +13,7 @@
 
     <!-- Styles -->  <!-- 会根据webpack.mix.js的逻辑生成css文件的链接  -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    @yield("styles")
 
 </head>
 
@@ -34,6 +35,7 @@
 
 <!-- Scripts -->
 <script src="{{ mix('js/app.js') }}"></script>
+@yield("scripts")
 </body>
 
 </html>
