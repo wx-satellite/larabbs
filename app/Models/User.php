@@ -41,4 +41,12 @@ class User extends Authenticatable implements MustVerifyEmailContract
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+
+    // $user->topics == $user->topics()->get()
+    // $user->topics返回的是一个模型实例的集合，$user->topics()返回的是一个EloquentBuilder()
+    public function topics() {
+        return $this->hasMany(Topic::class,"user_id");
+    }
 }
