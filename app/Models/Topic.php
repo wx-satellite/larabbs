@@ -26,4 +26,32 @@ class Topic extends Model
     public function category() {
         return $this->belongsTo(Category::class,"category_id");
     }
+
+
+    // 本地作用域
+
+    public function scopeRecent($query)
+    {
+        // 按照创建时间来排序
+        return $query->orderBy("created_at","desc");
+    }
+
+    public function scopeRecentReplied($query) {
+        // 按照最近回复时间来排序
+        return $query->orderBy("updated_at","desc");
+    }
+
+    public function scopeWithOrder($query,$order) {
+        switch ($order){
+            case "recent":
+                $query->recent();
+                break;
+            default:
+                $query->recentReplied();
+                break;
+        }
+        // 预加载，with可以传递一个数组或者多个参数，下面的代码等价于$query->with(["user","category"]);
+        // func_get_args()获取一个函数的所有参数
+        return $query->with("category","user");
+    }
 }

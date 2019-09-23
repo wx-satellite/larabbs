@@ -5,15 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Topic;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
 class CategoriesController extends Controller
 {
-    //
 
-    public function show(Category $category, $pageSize=15) {
+
+    // 注意：Illuminate\Http\Request和Illuminate\Support\Facades\Request是不同的类，后者的instance()方法获得前者的实例
+
+    public function show(Category $category, Request $request,$pageSize=15) {
         // 取出当前分类的所有文章
-        $topics = Topic::query()->where("category_id", $category->id)->with("category")->paginate($pageSize);
+        $topics = Topic::query()
+            ->where("category_id", $category->id)
+            ->withOrder($request->order)
+            ->paginate($pageSize);
 
         return view("topics.index",compact("topics","category"));
     }

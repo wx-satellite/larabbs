@@ -23,5 +23,11 @@ if(!function_exists("is_active")) {
     }
 }
 
+if(!function_exists("is_query")) {
+    function is_query($query, $value) {
+        return request()->input($query)==$value?"active":"";
+    }
+}
+
 
 

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Topic;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\TopicRequest;
 
 
@@ -35,10 +34,12 @@ class TopicsController extends Controller
     }
 
     //{!! $topics->appends(Request::except('page'))->render() !!}表示：除了page参数以外其他的参数都追加到分页链接中
-	public function index($pageSize=30)
+	public function index(Request $request,$pageSize=30)
 	{
 	    // 关联模型预加载：解决了N+1的问题
-		$topics = Topic::query()->with(["user","category"])->paginate($pageSize);
+		$topics = Topic::query()
+            ->withOrder($request->order)
+            ->paginate($pageSize);
 		return view('topics.index', compact('topics'));
 	}
 
