@@ -31,6 +31,8 @@ if(!function_exists("is_query")) {
     }
 }
 
+
+// Str类中存在很多常用的字符串处理函数：limit()，random()等等
 if(!function_exists("make_excerpt")){
     function make_excerpt($excerpt, $length=200) {
         // strip_tags()去掉字符串中的html标签

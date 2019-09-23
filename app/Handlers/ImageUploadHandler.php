@@ -65,6 +65,7 @@ class ImageUploadHandler {
 
 
     // 裁剪：有一个原因是因为图片太大的话会拖慢页面的加载速度
+    // 裁剪扩展包：composer require intervention/image   github：https://github.com/Intervention/image
     public function reduceSize($file_path, $max_width)
     {
         // 先实例化，传参是文件的磁盘物理路径

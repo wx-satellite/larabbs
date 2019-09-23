@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Handlers\ImageUploadHandler;
 use App\Models\Category;
 use App\Models\Topic;
 use Illuminate\Http\Request;
@@ -87,4 +88,25 @@ class TopicsController extends Controller
 
 		return redirect()->route('topics.index')->with('message', 'Deleted successfully.');
 	}
+
+	// 图片上传：在laravel的控制器中如果直接返回数组会被解析成json
+    public function uploadImage(Request $request, ImageUploadHandler $handler) {
+
+        // 初始化
+        $response = [
+            "success" => false,
+            "message" => "上传失败！",
+            "file_path" => ""
+        ];
+        // 如果有文件上传
+        if($request->upload_file) {
+            $res = $handler->save($request->upload_file,"topics",Auth::id(), 1024);
+            if($res) {
+                $response["success"] = true;
+                $response["file_path"] = $res["path"];
+                $response["message"] = "上传成功！";
+            }
+        }
+        return $response;
+    }
 }
