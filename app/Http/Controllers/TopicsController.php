@@ -93,8 +93,7 @@ class TopicsController extends Controller
 	{
 		$this->authorize('destroy', $topic);
 		$topic->delete();
-
-		return redirect()->route('topics.index')->with('message', 'Deleted successfully.');
+		return redirect()->route('topics.index')->with('success', '删除帖子成功！');
 	}
 
 	// 图片上传：在laravel的控制器中如果直接返回数组会被解析成json

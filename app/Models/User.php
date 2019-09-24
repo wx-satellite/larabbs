@@ -49,4 +49,10 @@ class User extends Authenticatable implements MustVerifyEmailContract
     public function topics() {
         return $this->hasMany(Topic::class,"user_id");
     }
+
+
+    // 检测话题是不是当前用户的
+    public function isAuthOf(Topic $topic) {
+        return $this->id == $topic->user_id;
+    }
 }
