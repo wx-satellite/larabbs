@@ -20,6 +20,9 @@ class TopicObserver
 
     public function updating(Topic $topic)
     {
-        //
+        //XSS标签过滤，使用插件：composer require "mews/purifier:~2.0"
+        $topic->body = clean($topic->body,"user_topic_body");
+
+        $topic->excerpt = make_excerpt($topic->body);
     }
 }

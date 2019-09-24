@@ -59,7 +59,7 @@ class TopicsController extends Controller
 
 	// 1. 第二个参数会创建一个空白的Topic对象
     // 2. 模型的观察器：https://learnku.com/docs/laravel/5.8/eloquent/3931#observers（模型观察器其实可以用模型事件代替）
-    // 3. 不要相信任何用户输入的数据，可能会触发XSS攻击：
+    // 3. 不要相信任何用户输入的数据，可能会触发XSS攻击：https://learnku.com/courses/laravel-intermediate-training/5.8/safety-problem/4174
     //      XSS 也称跨站脚本攻击 (Cross Site Scripting)，恶意攻击者往 Web 页面里插入恶意 JavaScript 代码，当用户浏览该页之时，嵌入其中 Web 里面的 JavaScript 代码会被执行，从而达到恶意攻击用户的目的。
     //    解决方案：1. 对用户提交的数据进行过滤  2. 在网页显示的时候进行转义，一般使用htmlspecialchars输出
     //    在laravel中{{}}自动会调用htmlspecialchars，而{!! !!}则是原样输出
@@ -76,16 +76,17 @@ class TopicsController extends Controller
 
 	public function edit(Topic $topic)
 	{
+        // 在授权策略的类方法里，返回 true 即允许访问，反之返回 false 为拒绝访问。
         $this->authorize('update', $topic);
-		return view('topics.create_and_edit', compact('topic'));
+        $categories = Category::all();
+		return view('topics.create_and_edit', compact('topic',"categories"));
 	}
 
 	public function update(TopicRequest $request, Topic $topic)
 	{
 		$this->authorize('update', $topic);
 		$topic->update($request->all());
-
-		return redirect()->route('topics.show', $topic->id)->with('message', 'Updated successfully.');
+		return redirect()->route('topics.show', $topic->id)->with('success', '帖子编辑成功！');
 	}
 
 	public function destroy(Topic $topic)
