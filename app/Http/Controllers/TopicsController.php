@@ -57,7 +57,14 @@ class TopicsController extends Controller
 	}
 
 
-	// 第二个参数会创建一个空白的Topic对象
+	// 1. 第二个参数会创建一个空白的Topic对象
+    // 2. 模型的观察器：https://learnku.com/docs/laravel/5.8/eloquent/3931#observers（模型观察器其实可以用模型事件代替）
+    // 3. 不要相信任何用户输入的数据，可能会触发XSS攻击：
+    //      XSS 也称跨站脚本攻击 (Cross Site Scripting)，恶意攻击者往 Web 页面里插入恶意 JavaScript 代码，当用户浏览该页之时，嵌入其中 Web 里面的 JavaScript 代码会被执行，从而达到恶意攻击用户的目的。
+    //    解决方案：1. 对用户提交的数据进行过滤  2. 在网页显示的时候进行转义，一般使用htmlspecialchars输出
+    //    在laravel中{{}}自动会调用htmlspecialchars，而{!! !!}则是原样输出
+    // 对用户的输入进行过滤可以使用： composer require "mews/purifier:~2.0"  这个包
+
 	public function store(TopicRequest $request, Topic $topic)
 	{
 	    // 该方法和Topic::query()->create()相似，只会填充fillable属性指定的字段
