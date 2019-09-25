@@ -60,4 +60,11 @@ class Topic extends Model
         // func_get_args()获取一个函数的所有参数
         return $query->with("category","user");
     }
+
+
+    // route("topics.show",[1,"my-name-is-weixin","name"=>"weixin","age"=>12]
+    // http://larabbs.test/topics/1/my-name-is-weixin?name=weixin&age=12
+    public function link($params=[]) {
+        return route("topics.show",array_merge([$this->id, $this->slug], $params));
+    }
 }
