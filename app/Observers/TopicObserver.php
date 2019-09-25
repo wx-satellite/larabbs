@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Handlers\SlugTranslateHandler;
+use App\Jobs\TranslateSlug;
 use App\Models\Topic;
 
 // creating, created, updating, updated, saving,
@@ -22,9 +23,22 @@ class TopicObserver
         $topic->excerpt = make_excerpt($topic->body);
 
 
+//        // 如 slug 字段无内容，即使用翻译器对 title 进行翻译
+//        if(!$topic->slug) {
+//            dispatch(new TranslateSlug($topic));
+//        }
+    }
+
+
+    // 在job类的构造函数中传入的Eloquent模型实例序列化的时候只会序列化ID字段，
+    // 如果放在saving方法中的话这个ID可能为空导致job执行失败
+    public function saved(Topic $topic)
+    {
         // 如 slug 字段无内容，即使用翻译器对 title 进行翻译
-        if(!$topic->slug) {
-            $topic->slug = app(SlugTranslateHandler::class)->translate($topic->title);
+        if ( ! $topic->slug) {
+
+            // 推送任务到队列
+            dispatch(new TranslateSlug($topic));
         }
     }
 
