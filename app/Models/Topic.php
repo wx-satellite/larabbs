@@ -33,6 +33,10 @@ class Topic extends Model
         return $this->belongsTo(Category::class,"category_id");
     }
 
+    public function replies() {
+        return $this->hasMany(Reply::class,"topic_id");
+    }
+
 
     // 本地作用域
 
