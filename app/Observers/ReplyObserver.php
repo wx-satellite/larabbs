@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Reply;
+use App\Notifications\TopicReplied;
 
 // creating, created, updating, updated, saving,
 // saved,  deleting, deleted, restoring, restored
@@ -31,6 +32,13 @@ class ReplyObserver
         $count = $topic->replies()->count();
         $topic->reply_count = $count;
         $topic->save();
+
+
+        // 通知话题的用户，话题有了新的回复。
+        // 教程：https://learnku.com/courses/laravel-intermediate-training/5.8/message-notification/4183
+        // 重写了User模型的notify方法（如果是发送给自己的通知，就不会发送了，但是激活邮件是需要发送给自己的。因此会导致框架自带的「重新发送邮件」的功能失效）
+        // 这里就新开启一个方法。
+        $reply->topic->user->topicNotify(new TopicReplied($reply));
 
     }
 }
