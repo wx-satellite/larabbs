@@ -66,9 +66,13 @@ class TopicsController extends Controller
 		return view('topics.index', compact('topics'));
 	}
 
+
+	// 需求：只有当前用户登陆了，才引入评论回复框
+    //      常见的方式就是@if(Auth::check()) 再决定引入不引入
+    //      另一种方式可以使用@includeWhen(Auth::check(),"topics._reply_box",["topic"=>$topic])
     public function show(Request $request,Topic $topic)
     {
-        // 注意：路由绑定的参数，通过$request->slug也是可以获取到的
+        // 注意：路由绑定的参数，通过$request->slug也是可以获取到的。这种方式不仅可以获取到表单提交的数据连上传的文件数据也能这么获取
         // URL矫正
         if($topic->slug && $topic->slug != $request->slug ) {
             return redirect($topic->link(),301);

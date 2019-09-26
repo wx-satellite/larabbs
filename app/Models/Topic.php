@@ -34,7 +34,7 @@ class Topic extends Model
     }
 
     public function replies() {
-        return $this->hasMany(Reply::class,"topic_id");
+        return $this->hasMany(Reply::class,"topic_id")->orderBy("created_at","desc");
     }
 
 
