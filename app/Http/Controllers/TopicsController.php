@@ -28,6 +28,27 @@ use Illuminate\Support\Facades\Auth;
  */
 
 
+/*
+ * class Dog {
+ *      protected $attributes = ["name"=>"weixin"];
+ *      public function __set($name, $value) {
+ *          $this->attributes[$name]=$value;
+ *      }
+ *      public function __get($name){
+ *          return $this->attributes[$name];
+ *      }
+ * }
+ *   $dog = new Dog();
+ *
+ *   判断了对象是否有name属性：
+ *      empty($dog->name);  为true
+ *
+ *   通过__get魔术方法获得了name的值：
+ *      $name = $dog->name;
+ *      empty($name); 为false;
+ */
+
+
 class TopicsController extends Controller
 {
     public function __construct()

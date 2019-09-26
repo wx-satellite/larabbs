@@ -13,6 +13,9 @@ use App\Models\User;
 // git clean -f -d  命令 git clean 作用是清理项目，-f 是强制清理文件的设置，-d 选项命令连文件夹一并清除。
 
 
+// 获取除了某一个参数以外的所有的参数值：
+// request()->except("page") 或者 Illuminate\Support\Facades\Request::except("page")
+
 
 // 关于表单验证：
 // ["name"=>"required|min:2"] 和 ["name"=>["required","min:2"]] 等效
