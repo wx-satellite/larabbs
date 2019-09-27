@@ -14,7 +14,13 @@ use Illuminate\Notifications\Messages\MailMessage;
 // 消息的发送有两种方式：
 //      使用trait的Notifiable的notify方法：$user->notify(new InvoicePaid($invoice));
 //      使用Notification的Facade：Notification::send($users, new InvoicePaid($invoice));
-class TopicReplied extends Notification
+
+
+//  大家应该会发现我们提交回复时，服务器响应会变得非常缓慢，
+//  这是『邮件通知』功能请求了SMTP 服务器进行邮件发送所产生的延迟。
+//  我们已经学过了，对于处理此类延迟，最好的方式是使用队列系统。
+//  我们可以通过对通知类添加 ShouldQueue 接口和 Queueable trait 把通知加入队列。
+class TopicReplied extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -39,7 +45,7 @@ class TopicReplied extends Notification
     // 每个通知类都有个 via() 方法，它决定了通知在哪个频道上发送。我们写上 database 数据库来作为通知频道。
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database',"mail"];
     }
 
     /**
@@ -50,10 +56,10 @@ class TopicReplied extends Notification
      */
     public function toMail($notifiable)
     {
+        $url = $this->reply->topic->link(['#reply' . $this->reply->id]);
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->line('你的话题有新回复！')
+                    ->action('查看回复', $url);
     }
 
 
