@@ -14,6 +14,14 @@ class User extends Authenticatable implements MustVerifyEmailContract
 {
     use Notifiable, MustVerifyEmailTrait;
 
+    // 标记通知消息已读
+    public function markAsRead() {
+        $this->notification_count = 0;
+        $this->save();
+        //文档：https://learnku.com/docs/laravel/5.8/notifications/3921#marking-notifications-as-read
+        // 注意这里是$this->unreadNotifications而不是$this->unreadNotifications()，后者得到的是一个QueryBuilder不能调用markAsRead方法
+        $this->unreadNotifications->markAsRead();
+    }
 
     public function topicNotify($notification) {
         // 如果要通知的用户是当前登陆的用户就不做任何处理

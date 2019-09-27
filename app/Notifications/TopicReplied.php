@@ -10,6 +10,10 @@ use Illuminate\Notifications\Messages\MailMessage;
 
 
 // 文档： https://learnku.com/docs/laravel/5.8/notifications/3921#database-prerequisites
+
+// 消息的发送有两种方式：
+//      使用trait的Notifiable的notify方法：$user->notify(new InvoicePaid($invoice));
+//      使用Notification的Facade：Notification::send($users, new InvoicePaid($invoice));
 class TopicReplied extends Notification
 {
     use Queueable;
