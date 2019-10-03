@@ -41,6 +41,10 @@ class UsersTableSeeder extends Seeder
         $user->avatar = 'https://cdn.learnku.com/uploads/images/201710/14/1/ZqM7iaP4CR.png';
         $user->password = bcrypt("11111111");
         $user->save();
+        $user->assignRole("Founder");
+
+        $user = \App\Models\User::query()->find(2);
+        $user->assignRole("Maintainer");
 
     }
 }

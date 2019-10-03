@@ -7,12 +7,16 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Traits\HasRoles;
 
 // MustVerifyEmailContract为接口类，实现该接口必须实现三个方法，
 // 后续又use了MustVerifyEmailTrait这个Trait，这个Trait实现了上述接口需要实现的三个方法
 class User extends Authenticatable implements MustVerifyEmailContract
 {
     use Notifiable, MustVerifyEmailTrait;
+
+    // 这个trait可以让我们使用扩展包中提供的权限角色方法
+    use HasRoles;
 
     // 标记通知消息已读
     public function markAsRead() {

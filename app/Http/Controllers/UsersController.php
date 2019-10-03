@@ -22,6 +22,12 @@ use App\Models\User;
 
 
 // 时间戳created_at和updated_at作为模型属性调用时会自动转成Carbon对象
+
+
+// 对于数据库的初始化数据可以使用迁移进行初始化，命名格式： php artisan make:migration  seed_{数据表名称}_data
+// 其次，在运行php artisan migrate时先运行迁移文件再运行数据填充文件
+
+
 class UsersController extends Controller
 {
 
