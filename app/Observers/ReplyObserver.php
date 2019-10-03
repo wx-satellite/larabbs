@@ -28,11 +28,7 @@ class ReplyObserver
         // 上面自增 1 是比较直接的做法。
         // 另一个比较严谨的做法是创建成功后计算本话题下评论总数，然后在对其 reply_count 字段进行赋值。
         // 这样做的好处多多，一般在做 xxx_count 此类总数缓存字段时，推荐使用此方法：
-        $topic = $reply->topic;
-        $count = $topic->replies()->count();
-        $topic->reply_count = $count;
-        $topic->save();
-
+        $reply->topic->updateReplyCount();
 
         // 通知话题的用户，话题有了新的回复。
         // 教程：https://learnku.com/courses/laravel-intermediate-training/5.8/message-notification/4183
@@ -40,5 +36,11 @@ class ReplyObserver
         // 这里就新开启一个方法。
         $reply->topic->user->topicNotify(new TopicReplied($reply));
 
+    }
+
+
+    // 回复被删除时
+    public function deleted(Reply $reply) {
+        $reply->topic->updateReplyCount();
     }
 }

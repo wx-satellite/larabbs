@@ -71,4 +71,11 @@ class Topic extends Model
     public function link($params=[]) {
         return route("topics.show",array_merge([$this->id, $this->slug], $params));
     }
+
+
+    // 统计当前话题下的评论数
+    public function updateReplyCount() {
+        $this->reply_count = $this->replies->count();
+        $this->save();
+    }
 }

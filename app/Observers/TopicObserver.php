@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Handlers\SlugTranslateHandler;
 use App\Jobs\TranslateSlug;
 use App\Models\Topic;
+use Illuminate\Support\Facades\DB;
 
 // creating, created, updating, updated, saving,
 // saved,  deleting, deleted, restoring, restored
@@ -49,4 +50,15 @@ class TopicObserver
 //
 //        $topic->excerpt = make_excerpt($topic->body);
 //    }
+
+
+
+    // 新增了 deleted() 方法来监控话题成功删除的事件。
+    // 需注意，在模型监听器中，数据库操作需避免再次触发 Eloquent 事件，以免造成联动逻辑冲突。所以这里我们使用了 DB 类进行操作。
+    // 避免出现：
+    //  如果使用模型删除的话会触发reply的删除事件，这时候会去更新对应topic的reply_count字段，但是这时候topic对象已经被删除了。会报错
+    public function deleted(Topic $topic) {
+
+        DB::table("replies")->where("topic_id", $topic->id)->delete();
+    }
 }
