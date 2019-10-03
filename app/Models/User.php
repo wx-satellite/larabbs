@@ -7,6 +7,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
 
 // MustVerifyEmailContract为接口类，实现该接口必须实现三个方法，
@@ -80,5 +82,30 @@ class User extends Authenticatable implements MustVerifyEmailContract
     // 检测话题是不是当前用户的
     public function isAuthOf(Topic $topic) {
         return $this->id == $topic->user_id;
+    }
+
+
+    // 修改器
+    // 访问器和修改器最大的区别是『发生修改的时机』，访问器是 访问属性时 修改，修改器是在 写入数据库前 修改。修改器是数据持久化，访问器是临时修改。
+    public function setPasswordAttribute($value) {
+        if (strlen($value) != 60) {
+
+            // 不等于 60，做密码加密处理
+//            $value = bcrypt($value);
+            $value = Hash::make($value);
+        }
+        $this->attributes["password"] = $value;
+    }
+
+    public function setAvatarAttribute($path)
+    {
+        // 如果不是 `http` 子串开头，那就是从后台上传的，需要补全 URL
+        if ( ! Str::startsWith($path, 'http')) {
+
+            // 拼接完整的 URL
+            $path = config('app.url') . "/uploads/images/avatar/$path";
+        }
+
+        $this->attributes['avatar'] = $path;
     }
 }
