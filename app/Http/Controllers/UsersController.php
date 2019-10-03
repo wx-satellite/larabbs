@@ -27,6 +27,10 @@ use App\Models\User;
 // 对于数据库的初始化数据可以使用迁移进行初始化，命名格式： php artisan make:migration  seed_{数据表名称}_data
 // 其次，在运行php artisan migrate时先运行迁移文件再运行数据填充文件
 
+// 在空文件夹中放置 .gitkeep 保证了 Git 会将此文件夹纳入版本控制器中。
+
+// 关于git rm -cache的使用：https://blog.csdn.net/hobhunter/article/details/79463086
+
 
 class UsersController extends Controller
 {
