@@ -2,6 +2,12 @@
 
 use Illuminate\Support\Facades\Auth;
 
+
+// Administrator 会对所有的输出内容进行 htmlspecialchars() 过滤，以此来防范 XSS 攻击。
+// 然而当你在『数据表格』中使用 output 选项输出 HTML 时，Administrator 将无法保护你：
+// 需要谨记的一点 ——『永远不要相信用户能够修改的数据』，
+// output 选项接受的两个参数里，$value 的数据是被过滤过的，可以安全使用。其他的用户数据，输出时请使用 Laravel 自带的 e() 函数对其做转义处理，
+
 return array(
 
     // 后台的 URI 入口
@@ -44,6 +50,16 @@ return array(
             "roles",
             "permissions"
         ],
+        '内容管理' => [
+            'categories',
+            'topics',
+            'replies',
+        ],
+
+        // setting()函数用于获取设置的配置信息，查看源代码可以发现，administrator是将配置信息以json的形式写入到storage目录下的administrator_settings中
+        "站点管理" => [
+            "settings.site"
+        ]
 
 
     ],

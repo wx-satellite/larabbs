@@ -29,7 +29,21 @@ use App\Models\User;
 
 // 在空文件夹中放置 .gitkeep 保证了 Git 会将此文件夹纳入版本控制器中。
 
-// 关于git rm -cache的使用：https://blog.csdn.net/hobhunter/article/details/79463086
+// 关于git rm -rf --cache的使用：https://blog.csdn.net/hobhunter/article/details/79463086
+
+
+// 关于laravel的命令：
+//  php artisan config:clear
+//  php artisan config:cache  首先执行了php artisan config:clear再重新生成了配置文件缓存
+//  php artisan route:cache
+//  php artisan route::clear
+//  php artisan cache:clear  清楚缓存，不影响生成的config配置文件缓存和路由缓存。
+//参考文章：https://learnku.com/articles/4809/note-that-laravel-clears-cache-php-artisan-cacheclear-usage
+
+
+// 关于安装第三方库的思考：网上有些教程在composer安装好第三方库之后会强调在app.php文件的providers数组中注册，但是本教程在安装好之后
+// 没有强调添加到providers数组中，只是仅仅使用了"php artisan vendor:publish --provider==''"命令发布了就能使用。
+// 问题参考文章：https://juejin.im/post/5affc6a051882542821c94a8
 
 
 class UsersController extends Controller
