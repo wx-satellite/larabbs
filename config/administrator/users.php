@@ -15,6 +15,8 @@ return [
 
     // 设置当前页面的访问权限，通过返回布尔值来控制权限。
     // 返回 True 即通过权限验证，False 则无权访问并从 Menu 中隐藏
+    // 单独的模型文件里 permission 控制的是模型页面的访问权限，如果模型权限未通过，后台菜单项都会隐藏。
+    // 并且当你试图通过路由的方式访问时，会被重定向到后台主页。
     'permission'=> function()
     {
         return Auth::user()->can('manage_users');
