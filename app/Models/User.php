@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\ActiveUserHelp;
+use App\Models\Traits\RecordLastActivedTime;
 use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
@@ -24,6 +25,10 @@ class User extends Authenticatable implements MustVerifyEmailContract
 
     // 自定义的trait，用于计算活跃用户
     use ActiveUserHelp;
+
+    // 自定义trait，用于统计最后登陆时间
+    use RecordLastActivedTime;
+
 
     // 标记通知消息已读
     public function markAsRead() {
@@ -113,4 +118,5 @@ class User extends Authenticatable implements MustVerifyEmailContract
 
         $this->attributes['avatar'] = $path;
     }
+
 }

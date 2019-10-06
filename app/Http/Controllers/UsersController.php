@@ -24,7 +24,7 @@ use App\Models\User;
 // 时间戳created_at和updated_at作为模型属性调用时会自动转成Carbon对象
 
 
-// 对于数据库的初始化数据可以使用迁移进行初始化，命名格式： php artisan make:migration  seed_{数据表名称}_data
+// 对于数据库的初始化数据可以使用迁移进行初始化，命名格式： php artisan make:migration  _{数据表名称}_data
 // 其次，在运行php artisan migrate时先运行迁移文件再运行数据填充文件
 
 // 在空文件夹中放置 .gitkeep 保证了 Git 会将此文件夹纳入版本控制器中。
@@ -44,6 +44,15 @@ use App\Models\User;
 // 关于安装第三方库的思考：网上有些教程在composer安装好第三方库之后会强调在app.php文件的providers数组中注册，但是本教程在安装好之后
 // 没有强调添加到providers数组中，只是仅仅使用了"php artisan vendor:publish --provider==''"命令发布了就能使用。
 // 问题参考文章：https://juejin.im/post/5affc6a051882542821c94a8
+
+
+// 保证数据的一致性：
+// 出现场景：例如我们删除用户，没有删除对应的话题，当我们进入话题之后获取用户的信息时就会报错。
+// 解决方案：
+//  1. 代码监听器：观察器的deleted方法删除对应的话题，好处是灵活、扩展性强，不受底层数据库约束，坏处是当删除时不添加监听器，就会出现漏删；
+//  2. 数据库自带的外间约束：好处是数据一致性强，基本上不会出现漏删，坏处是有些数据库不支持，如 SQLite。
+
+
 
 
 class UsersController extends Controller

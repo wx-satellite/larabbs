@@ -3,7 +3,13 @@
 namespace App\Http;
 
 use App\Http\Middleware\EnsureEmailIsVerified;
+use App\Http\Middleware\RecordLastActivedTime;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+
+
+// "app/Http/Kernel.php"中间件相关说明：https://learnku.com/courses/laravel-intermediate-training/5.8/user-last-logon-time/4200
+
+
 
 class Kernel extends HttpKernel
 {
@@ -27,7 +33,10 @@ class Kernel extends HttpKernel
      *
      * @var array
      */
+
     protected $middlewareGroups = [
+
+        // web.php的路由都会经过如下中间件
         'web' => [
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
@@ -36,9 +45,14 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            EnsureEmailIsVerified::class
+
+            // 自定义中间件：强制用户邮箱认证
+            EnsureEmailIsVerified::class,
+            // 自定义中间件：记录用户最近登陆时间
+            RecordLastActivedTime::class,
         ],
 
+        // api.php的路由都会经过如下中间件
         'api' => [
             'throttle:60,1',
             'bindings',
