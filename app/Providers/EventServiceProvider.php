@@ -4,9 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Verified;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -35,7 +35,13 @@ class EventServiceProvider extends ServiceProvider
         // 当然还有一种解决方案：在ResetPasswordController控制器中重写sendResetResponse这个方法
         PasswordReset::class => [
             \App\Listeners\MessagePasswordReset::class
+        ],
+
+        // 记录sql语句到日志中
+        QueryExecuted::class => [
+            \App\Listeners\WriteSql::class
         ]
+
     ];
 
     /**

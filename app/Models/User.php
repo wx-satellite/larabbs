@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ActiveUserHelp;
 use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
@@ -17,8 +18,12 @@ class User extends Authenticatable implements MustVerifyEmailContract
 {
     use Notifiable, MustVerifyEmailTrait;
 
+
     // 这个trait可以让我们使用扩展包中提供的权限角色方法
     use HasRoles;
+
+    // 自定义的trait，用于计算活跃用户
+    use ActiveUserHelp;
 
     // 标记通知消息已读
     public function markAsRead() {
