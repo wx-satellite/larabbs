@@ -60,7 +60,8 @@ return array(
         // setting()函数用于获取设置的配置信息，查看源代码可以发现
         // administrator是将配置信息以json的形式写入到storage目录下的administrator_settings中
         "站点管理" => [
-            "settings.site"
+            "settings.site",
+            "links"
         ]
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Link;
 use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ class CategoriesController extends Controller
             ->withOrder($request->order)
             ->paginate($pageSize);
         $active_users = (new User())->getActiveUsers();
-        return view("topics.index",compact("topics","category",'active_users'));
+        $links = (new Link())->getLinksFromCache();
+        return view("topics.index",compact("topics","category",'active_users','links'));
     }
 }

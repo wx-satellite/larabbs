@@ -21,7 +21,7 @@ Route::get("test/{name?}","TestController@test");
 Route::get("/","PagesController@root")->name("root");
 
 // 后台权限校验失败跳转的路由
-Route::get("permission-denied","PageController@permissionDenied")->name("permission-denied");
+Route::get("permission-denied","PagesController@permissionDenied")->name("permission-denied");
 
 Route::resource("users","UsersController",["only"=>["show","update","edit"]]);
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Handlers\ImageUploadHandler;
 use App\Models\Category;
+use App\Models\Link;
 use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -58,14 +59,15 @@ class TopicsController extends Controller
     }
 
     //{!! $topics->appends(Request::except('page'))->render() !!}表示：除了page参数以外其他的参数都追加到分页链接中
-	public function index(Request $request,User $user,$pageSize=30)
+	public function index(Request $request,User $user,Link $link,$pageSize=30)
 	{
 	    // 关联模型预加载：解决了N+1的问题
 		$topics = Topic::query()
             ->withOrder($request->order)
             ->paginate($pageSize);
         $active_users = $user->getActiveUsers();
-		return view('topics.index', compact('topics','active_users'));
+        $links = $link->getLinksFromCache();
+		return view('topics.index', compact('topics','active_users','links'));
 	}
 
 
