@@ -18,8 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get("test/{name?}","TestController@test");
 
 
-Route::get("/","PagesController@root")->name("root");
-
+//Route::get("/","PagesController@root")->name("root");
+Route::get("/","TopicsController@index")->name("root");
 // 后台权限校验失败跳转的路由
 Route::get("permission-denied","PagesController@permissionDenied")->name("permission-denied");
 
